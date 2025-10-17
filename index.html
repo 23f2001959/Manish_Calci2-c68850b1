@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+body {
+  font-family: Arial, sans-serif;
+}
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.input-field {
+  width: 70%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.add-btn {
+  padding: 8px 15px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.task-list {
+  margin-top: 20px;
+}
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.task-item.complete {
+  text-decoration: line-through;
+}
+.action-btns {
+  display: flex;
+}
+.action-btn {
+  margin-left: 10px;
+  cursor: pointer;
+}
+</style> 
+</head>
+<body>
+<div class="container">
+  <h1>To-Do List</h1>
+  <div class="header">
+    <input type="text" id="taskInput" class="input-field" placeholder="Add a new task">
+    <button onclick="addTask()" class="add-btn">Add</button>
+  </div>
+  <div class="task-list" id="taskList">
+    
+  </div>
+</div>
+
+<script>
+const taskInput = document.getElementById('taskInput');
+const taskList = document.getElementById('taskList');
+
+function addTask() {
+  const taskText = taskInput.value;
+  if (taskText.trim() !== '') {
+    const taskItem = document.createElement('div');
+    taskItem.className = 'task-item';
+    taskItem.innerHTML = `
+      <span>${taskText}</span>
+      <div class="action-btns">
+        <button onclick="markComplete(this)" class="action-btn"><i class="fas fa-check"></i></button>
+        <button onclick="editTask(this)" class="action-btn"><i class="fas fa-edit"></i></button>
+        <button onclick="deleteTask(this)" class="action-btn"><i class="fas fa-trash"></i></button>
+      </div>
+    `;
+    taskList.appendChild(taskItem);
+    taskInput.value = '';
+  } else {
+    alert('Task cannot be empty');
+  }
+}
+
+function markComplete(button) {
+  const taskItem = button.parentElement.parentElement;
+  taskItem.classList.toggle('complete');
+}
+
+function editTask(button) {
+  const taskItem = button.parentElement.parentElement;
+  const taskText = taskItem.querySelector('span');
+  const newText = prompt('Edit task:', taskText.innerText);
+  if (newText !== null) {
+    taskText.innerText = newText;
+  }
+}
+
+function deleteTask(button) {
+  const taskItem = button.parentElement.parentElement;
+  taskItem.remove();
+}
+
+</script>
+</body>
+</html>
